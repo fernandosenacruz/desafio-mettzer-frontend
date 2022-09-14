@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -10,7 +10,6 @@ import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import { Button } from '@mui/material';
-import { Stack } from '@mui/system';
 import { getArticles } from '../api/api';
 import { ArticlesContext } from '../contexts/articles';
 
@@ -49,24 +48,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '30ch',
+      width: '20ch',
       '&:focus': {
-        width: '50ch',
+        width: '40ch',
       },
     },
   },
 }));
 
 export default function Header() {
-  const { setArticles } = useContext(ArticlesContext);
+  const { articles, setArticles } = useContext(ArticlesContext);
   const [keyword, setKeyword] = useState('');
 
-  const handleChange = (target: HTMLInputElement | HTMLTextAreaElement): void => setKeyword(target.value);
+  const handleChange = (target: HTMLInputElement | HTMLTextAreaElement): void =>
+    setKeyword(target.value);
 
   const searchArticles = async () => {
     const { data } = await getArticles(`${keyword}`, '1');
 
-    setArticles(data);
+    setArticles({...articles, data});
   };
 
   return (
@@ -92,8 +92,7 @@ export default function Header() {
               <img
                 src="https://www.mettzer.com/wp-content/uploads/2022/03/logo_mettzer_PRINCIPAL_EDITOR.png"
                 alt="Logo Mettzer"
-                width="60rem"
-                height="48rem"
+                width="80rem"
               />
             </Link>
           </Typography>
@@ -110,7 +109,6 @@ export default function Header() {
             Favoritos
           </Typography>
           <Search>
-            <Stack>
               <Button
                 sx={{ color: '#00DB87' }}
                 type="button"
@@ -118,7 +116,6 @@ export default function Header() {
               >
                 <SearchIcon />
               </Button>
-            </Stack>
             <StyledInputBase
               sx={{ color: '#212121' }}
               placeholder="Palavra chave…"
