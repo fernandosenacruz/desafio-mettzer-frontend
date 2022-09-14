@@ -1,4 +1,19 @@
-import React, { useState, createContext } from 'react';
+import React, {
+  useState,
+  createContext,
+  Dispatch,
+  SetStateAction,
+  ReactNode,
+  FC,
+} from 'react';
+import { IArticle, IArticles } from '../interfaces/IArticle';
+
+type ContextType = {
+  articles: IArticles;
+  setArticles: Dispatch<SetStateAction<IArticles>>;
+};
+
+type Props = { children: ReactNode };
 
 export const DEFAULT_VALUE = {
   articles: {
@@ -114,3 +129,20 @@ export const DEFAULT_VALUE = {
     ],
   },
 };
+
+export const ArticlesContext = createContext<ContextType>({
+  articles: DEFAULT_VALUE.articles,
+  setArticles: (): void => {},
+});
+
+const ArticleProvider: FC<Props> = ({ children }) => {
+  const [articles, setArticles] = useState<IArticles>(DEFAULT_VALUE.articles);
+
+  return (
+    <ArticlesContext.Provider value={{ articles, setArticles }}>
+      {children}
+    </ArticlesContext.Provider>
+  );
+};
+
+export default ArticleProvider;

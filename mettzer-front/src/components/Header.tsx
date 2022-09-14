@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -9,9 +9,10 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import { getArticles } from '../api/api';
 import { Button } from '@mui/material';
 import { Stack } from '@mui/system';
+import { getArticles } from '../api/api';
+import { ArticlesContext } from '../contexts/articles';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -57,6 +58,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
+  const { setArticles } = useContext(ArticlesContext);
+  const [keyword, setKeyword] = useState('');
+
+  const handleChange = (target: HTMLInputElement | HTMLTextAreaElement): void => setKeyword(target.value);
+
+  const searchArticles = async () => {
+    const { data } = await getArticles(`${keyword}`, '1');
+
+    setArticles(data);
+  };
+
   return (
     <Box sx={{ flexGrow: 3 }}>
       <AppBar position="static">
@@ -102,7 +114,7 @@ export default function Header() {
               <Button
                 sx={{ color: '#00DB87' }}
                 type="button"
-                onClick={() => getArticles('diabetis mélitus', '1')}
+                onClick={() => searchArticles()}
               >
                 <SearchIcon />
               </Button>
@@ -111,6 +123,7 @@ export default function Header() {
               sx={{ color: '#212121' }}
               placeholder="Palavra chave…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={({ target }) => handleChange(target)}
             />
           </Search>
         </Toolbar>

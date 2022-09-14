@@ -14,7 +14,7 @@ export const getArticles = async (keyword: string, page: string) => {
       `/${keyword}?page=${page}&pageSize=10&apiKey=${REACT_APP_SECRET_KEY}`
     );
 
-    console.log(data);
+    return data;
   } catch (error) {
     console.log(error);
   }
