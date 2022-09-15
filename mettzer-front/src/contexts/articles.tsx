@@ -6,7 +6,7 @@ import React, {
   ReactNode,
   FC,
 } from 'react';
-import { IArticle, IArticles } from '../interfaces/IArticle';
+import { IArticles } from '../interfaces/IArticle';
 
 type ContextType = {
   articles: IArticles;

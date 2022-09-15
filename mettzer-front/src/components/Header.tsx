@@ -1,17 +1,18 @@
 import { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { styled, alpha } from '@mui/material/styles';
+import { getArticles } from '../api/api';
+import { ArticlesContext } from '../contexts/articles';
+import LogoMettzer from '../partials/LogoMettzer';
+import FavoritesLink from '../partials/FavoritesLink';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import { styled, alpha } from '@mui/material/styles';
 import { Button } from '@mui/material';
-import { getArticles } from '../api/api';
-import { ArticlesContext } from '../contexts/articles';
+import TopBar from './TopBar';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -59,6 +60,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Header() {
   const { articles, setArticles } = useContext(ArticlesContext);
   const [keyword, setKeyword] = useState('');
+  const [showDrawer, setShowDrawer] = useState(false);
 
   const handleChange = (target: HTMLInputElement | HTMLTextAreaElement): void =>
     setKeyword(target.value);
@@ -66,49 +68,27 @@ export default function Header() {
   const searchArticles = async () => {
     const { data } = await getArticles(`${keyword}`, '1');
 
-    setArticles({...articles, data});
+    setArticles({ ...articles, data });
   };
 
   return (
-    <Box sx={{ flexGrow: 3 }}>
-      <AppBar position="static">
-        <Toolbar sx={{ backgroundColor: 'white' }}>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon sx={{ color: '#00DB87' }} />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 3, display: { xs: 'none', sm: 'block' } }}
-          >
-            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <img
-                src="https://www.mettzer.com/wp-content/uploads/2022/03/logo_mettzer_PRINCIPAL_EDITOR.png"
-                alt="Logo Mettzer"
-                width="80rem"
-              />
-            </Link>
-          </Typography>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{
-              flexGrow: 1,
-              display: { xs: 'none', sm: 'block' },
-              color: '#00DB87',
-            }}
-          >
-            Favoritos
-          </Typography>
-          <Search>
+    <>
+      <Box sx={{ flexGrow: 3 }}>
+        <AppBar position="static">
+          <Toolbar sx={{ backgroundColor: 'white' }}>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ mr: 2 }}
+              onClick={() => setShowDrawer(!showDrawer)}
+            >
+              <MenuIcon sx={{ color: '#00DB87' }} />
+            </IconButton>
+            <LogoMettzer />
+            <FavoritesLink shouldHideOnMobile={true} />
+            <Search>
               <Button
                 sx={{ color: '#00DB87' }}
                 type="button"
@@ -116,15 +96,17 @@ export default function Header() {
               >
                 <SearchIcon />
               </Button>
-            <StyledInputBase
-              sx={{ color: '#212121' }}
-              placeholder="Palavra chave…"
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={({ target }) => handleChange(target)}
-            />
-          </Search>
-        </Toolbar>
-      </AppBar>
-    </Box>
+              <StyledInputBase
+                sx={{ color: '#212121' }}
+                placeholder="Palavra chave…"
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={({ target }) => handleChange(target)}
+              />
+            </Search>
+          </Toolbar>
+        </AppBar>
+      </Box>
+      <TopBar showDrawer={showDrawer} setShowDrawer={setShowDrawer} />
+    </>
   );
 }
