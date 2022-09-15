@@ -86,7 +86,7 @@ export default function Header() {
             >
               <MenuIcon sx={{ color: '#00DB87' }} />
             </IconButton>
-            <LogoMettzer />
+            <LogoMettzer shouldHideOnMobile={true}/>
             <FavoritesLink shouldHideOnMobile={true} />
             <Search>
               <Button
@@ -97,7 +97,7 @@ export default function Header() {
                 <SearchIcon />
               </Button>
               <StyledInputBase
-                sx={{ color: '#212121' }}
+                sx={{ color: '#212121' , fontSize: { xs: '14px', sm: '18px', md: '22px'}}}
                 placeholder="Palavra chave…"
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={({ target }) => handleChange(target)}

@@ -1,18 +1,15 @@
 import { Dispatch } from 'react';
 import LogoMettzer from '../partials/LogoMettzer';
 import FavoritesLink from '../partials/FavoritesLink';
-import MenuIcon from '@mui/icons-material/Menu';
 import {
   Box,
   Divider,
   Drawer,
   Grid,
-  IconButton,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
 } from '@mui/material';
 
 type Anchor = 'top';

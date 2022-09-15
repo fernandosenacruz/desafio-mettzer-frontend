@@ -2,7 +2,7 @@ export interface IFavoriteLinks {
   shouldHideOnMobile?: boolean | undefined;
 }
 
-const hideOnMobile = (shoulHideOnMobile: IFavoriteLinks) => {
+const hideOnMobile = (shoulHideOnMobile: boolean | undefined) => {
   return shoulHideOnMobile && {display: { xs: 'none', sm: 'block' }
 }};
 
