@@ -14,10 +14,12 @@ interface IPageNumber {
 export default function PaginationLink({ pageNumber }: IPageNumber) {
   const { keyword, articles, setArticles } = useContext(ArticlesContext);
 
-  const handleChangePage = async (target: any) => {
-    const value = target.innerText;
+  const handleChangePage = async (
+    _event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
     if (value && keyword) {
-      const data = await getArticles(`${keyword}`, value);
+      const data = await getArticles(`${keyword}`, value.toString());
 
       setArticles({ ...articles, data: data?.data.data });
     }
@@ -27,7 +29,7 @@ export default function PaginationLink({ pageNumber }: IPageNumber) {
     <Stack spacing={2}>
       <Pagination
         color="primary"
-        onClick={({ target }) => handleChangePage(target)}
+        onChange={handleChangePage}
         count={pageNumber}
         renderItem={(item) => (
           <PaginationItem

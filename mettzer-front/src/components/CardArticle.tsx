@@ -6,6 +6,8 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import BasicAccordion from './BasicAccordion';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const card = (
   _source: {
@@ -17,7 +19,7 @@ const card = (
   _type: string
 ) => (
   <>
-    <CardContent sx={{ backgroundColor: '#D3D3D3'}}>
+    <CardContent sx={{ backgroundColor: '#D3D3D3' }}>
       <BasicAccordion
         label="Authores"
         array={_source.authors}
@@ -26,14 +28,18 @@ const card = (
       <Typography variant="h5" component="div" mb={2}>
         {_source.title}
       </Typography>
-      <Typography sx={{ mb: 2 , fontStyle: "italic"}} color="text.secondary">
+      <Typography sx={{ mb: 2, fontStyle: 'italic' }} color="text.secondary">
         {_type}
       </Typography>
-      <Typography variant="body2" mb={2}>{_source.description}</Typography>
+      <Typography variant="body2" mb={2}>
+        {_source.description}
+      </Typography>
       <BasicAccordion label="URLs" array={_source.urls} clickable={true} />
     </CardContent>
     <CardActions>
-      <Button size="small">Learn More</Button>
+      <Button size="small">
+        <FavoriteBorderIcon />
+      </Button>
     </CardActions>
   </>
 );
