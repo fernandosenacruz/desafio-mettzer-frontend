@@ -29,17 +29,6 @@ const Search = styled('div')(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 1),
-  color: '#00DB87',
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
@@ -58,17 +47,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
-  const { articles, setArticles } = useContext(ArticlesContext);
-  const [keyword, setKeyword] = useState('');
+  const { setArticles, setKeyword } = useContext(ArticlesContext);
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [showDrawer, setShowDrawer] = useState(false);
 
   const handleChange = (target: HTMLInputElement | HTMLTextAreaElement): void =>
-    setKeyword(target.value);
+    setSearchKeyword(target.value);
 
   const searchArticles = async () => {
-    const { data } = await getArticles(`${keyword}`, '1');
+    const data = await getArticles(`${searchKeyword}`, '1');
 
-    setArticles({ ...articles, data });
+    setArticles(data?.data);
+    setKeyword(searchKeyword);
   };
 
   return (

@@ -1,12 +1,18 @@
-import React, { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import CardArticle from '../components/CardArticle';
 import { ArticlesContext } from '../contexts/articles';
 import { Grid } from '@mui/material';
 import { IArticle } from '../interfaces/IArticle';
+import PaginationLink from '../components/PaginationLink';
 
 function Home() {
   const { articles } = useContext(ArticlesContext);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  useEffect(() => {
+    setPageNumber(Math.ceil(articles.totalHits / 10));
+  }, [articles, pageNumber]);
 
   return (
     <>
@@ -14,10 +20,11 @@ function Home() {
       <Grid container spacing={4} p={2}>
         <Grid item xs={12}>
           {articles?.data?.map((article: IArticle) => (
-            <Grid item key={article._id} spacing={2} p={2} mb={2}>
+            <Grid item key={article._id} p={2} mb={2}>
               <CardArticle article={article} />
             </Grid>
           ))}
+          <PaginationLink pageNumber={pageNumber} />
         </Grid>
       </Grid>
     </>

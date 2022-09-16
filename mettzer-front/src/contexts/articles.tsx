@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   createContext,
   Dispatch,
@@ -11,6 +11,8 @@ import { IArticles } from '../interfaces/IArticle';
 type ContextType = {
   articles: IArticles;
   setArticles: Dispatch<SetStateAction<IArticles>>;
+  keyword: string;
+  setKeyword: Dispatch<SetStateAction<string>>;
 };
 
 type Props = { children: ReactNode };
@@ -18,7 +20,7 @@ type Props = { children: ReactNode };
 export const DEFAULT_VALUE = {
   articles: {
     status: 'OK',
-    totalHits: 5851,
+    totalHits: 1,
     data: [
       {
         _index: 'articles_2021_07_12',
@@ -128,18 +130,24 @@ export const DEFAULT_VALUE = {
       },
     ],
   },
+  keyword: '',
 };
 
 export const ArticlesContext = createContext<ContextType>({
   articles: DEFAULT_VALUE.articles,
   setArticles: (): void => {},
+  keyword: DEFAULT_VALUE.keyword,
+  setKeyword: (): void => {},
 });
 
 const ArticleProvider: FC<Props> = ({ children }) => {
   const [articles, setArticles] = useState<IArticles>(DEFAULT_VALUE.articles);
+  const [keyword, setKeyword] = useState<string>(DEFAULT_VALUE.keyword);
 
   return (
-    <ArticlesContext.Provider value={{ articles, setArticles }}>
+    <ArticlesContext.Provider
+      value={{ articles, setArticles, keyword, setKeyword }}
+    >
       {children}
     </ArticlesContext.Provider>
   );

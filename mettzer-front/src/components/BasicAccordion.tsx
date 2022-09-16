@@ -26,9 +26,11 @@ export default function BasicAccordion({
       </AccordionSummary>
       <AccordionDetails>
         {!clickable
-          ? array?.map((e) => <Typography>{e}</Typography>)
-          : array?.map((e) => (
-              <Typography>
+          ? array?.map((e, index) => (
+              <Typography key={`${index}: ${e}`}>{e}</Typography>
+            ))
+          : array?.map((e, index) => (
+              <Typography key={`${index}: ${e}`}>
                 <a href={e}>{e}</a>
               </Typography>
             ))}
