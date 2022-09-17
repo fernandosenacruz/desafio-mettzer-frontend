@@ -1,4 +1,4 @@
-import { IArticle, ISource, ISourceCardDetails } from '../interfaces/IArticle';
+import { IArticle, ISourceCardDetails } from '../interfaces/IArticle';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -8,14 +8,16 @@ import Typography from '@mui/material/Typography';
 import BasicAccordion from './BasicAccordion';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import findFavorited from '../utils/findFavorited';
+import localStorageGetItem from '../utils/localStorageGetItem';
 
 const card = (
   _source: ISourceCardDetails,
   _type: string,
+  favorites: ISourceCardDetails[],
   handleFavorite: Function
 ) => {
-  const favorited = localStorage.getItem('favorites') || '';
-  console.log(favorited);
+  const favorited = findFavorited(favorites, _source.title);
 
   return (
     <>
@@ -38,7 +40,7 @@ const card = (
       </CardContent>
       <CardActions>
         <Button size="small" onClick={() => handleFavorite(_source)}>
-          {favorited ? <FavoriteBorderIcon /> : <FavoriteIcon />}
+          {favorited ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </Button>
       </CardActions>
     </>
@@ -47,38 +49,52 @@ const card = (
 
 export default function CardArticle({
   article: { _source, _type },
+  favorites,
+  setFavorites,
 }: {
   article: IArticle;
+  favorites: ISourceCardDetails[];
+  setFavorites: Function;
 }) {
+  const addFavorites = (
+    storage: ISourceCardDetails[] | [],
+    ARTICLE: ISourceCardDetails
+  ) => {
+    if (storage) {
+      localStorage.setItem('favorites', JSON.stringify([...storage, ARTICLE]));
+    } else {
+      localStorage.setItem('favorites', JSON.stringify([ARTICLE]));
+    }
+
+    setFavorites(storage || ARTICLE);
+  };
+
+  const unfavorite = () => {
+    console.log('criar funnção de desfavoritar');
+  };
+
   const handleFavorite = ({
     authors,
     title,
     description,
     urls,
   }: ISourceCardDetails) => {
-    const favorites = localStorage.getItem('favorites') || '';
+    const ARTICLE = { authors, title, description, urls };
+    const storage = localStorageGetItem('favorites');
+    const favorited = findFavorited(storage, title);
 
-    if (favorites) {
-      const parsedFavorites = JSON.parse(favorites);
-
-      localStorage.setItem(
-        'favorites',
-        JSON.stringify([
-          ...parsedFavorites,
-          { authors, title, description, urls },
-        ])
-      );
+    if (favorited) {
+      unfavorite();
     } else {
-      localStorage.setItem(
-        'favorites',
-        JSON.stringify([{ authors, title, description, urls }])
-      );
+      addFavorites(storage, ARTICLE);
     }
   };
 
   return (
     <Box sx={{ minWidth: 250 }}>
-      <Card variant="outlined">{card(_source, _type, handleFavorite)}</Card>
+      <Card variant="outlined">
+        {card(_source, _type, favorites, handleFavorite)}
+      </Card>
     </Box>
   );
 }

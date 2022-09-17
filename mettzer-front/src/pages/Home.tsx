@@ -5,14 +5,16 @@ import { ArticlesContext } from '../contexts/articles';
 import { Box, Grid } from '@mui/material';
 import { IArticle } from '../interfaces/IArticle';
 import PaginationLink from '../components/PaginationLink';
+import localStorageGetItem from '../utils/localStorageGetItem';
 
 function Home() {
   const { articles } = useContext(ArticlesContext);
   const [pageNumber, setPageNumber] = useState(1);
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     setPageNumber(Math.ceil(articles.totalHits / 10));
-  }, [articles, pageNumber]);
+  }, [articles, pageNumber, favorites]);
 
   return (
     <>
@@ -20,7 +22,11 @@ function Home() {
       <Grid container spacing={4} p={2}>
         {articles?.data?.map((article: IArticle) => (
           <Grid item md={6} key={article._id} p={2} mb={2}>
-            <CardArticle article={article} />
+            <CardArticle
+              article={article}
+              favorites={favorites}
+              setFavorites={setFavorites}
+            />
           </Grid>
         ))}
       </Grid>

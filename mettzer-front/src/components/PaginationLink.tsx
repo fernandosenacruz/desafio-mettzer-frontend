@@ -19,9 +19,13 @@ export default function PaginationLink({ pageNumber }: IPageNumber) {
     value: number
   ) => {
     if (value && keyword) {
-      const data = await getArticles(`${keyword}`, value.toString());
+      try {
+        const data = await getArticles(`${keyword}`, value.toString());
 
-      setArticles({ ...articles, data: data?.data.data });
+        setArticles({ ...articles, data: data?.data.data });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
