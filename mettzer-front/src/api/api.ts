@@ -10,7 +10,7 @@ export const api = axios.create({
 
 export const getArticles = async (keyword: string, page: string) => {
   try {
-    const { data } = await api.get(
+    const data = await api.get(
       `/${keyword}?page=${page}&pageSize=10&apiKey=${REACT_APP_SECRET_KEY}`
     );
 

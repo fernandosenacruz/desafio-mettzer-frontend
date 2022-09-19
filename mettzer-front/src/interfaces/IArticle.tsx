@@ -80,6 +80,13 @@ export interface ISource {
   orcidAuthors: string | null;
 }
 
+export interface ISourceCardDetails {
+  authors: string[];
+  title: string;
+  description: string;
+  urls: string[];
+}
+
 export interface IArticle {
   _index: string;
   _type: string;

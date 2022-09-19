@@ -1,18 +1,19 @@
-import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { styled, alpha } from '@mui/material/styles';
+import { useState, useContext } from 'react';
+import { getArticles } from '../api/api';
+import { ArticlesContext } from '../contexts/articles';
+import LogoMettzer from '../partials/LogoMettzer';
+import FavoritesLink from '../partials/FavoritesLink';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import { styled, alpha } from '@mui/material/styles';
 import { Button } from '@mui/material';
-import { Stack } from '@mui/system';
-import { getArticles } from '../api/api';
-import { ArticlesContext } from '../contexts/articles';
+import TopBar from './TopBar';
+import localStorageGetItem from '../utils/localStorageGetItem';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -29,17 +30,6 @@ const Search = styled('div')(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 1),
-  color: '#00DB87',
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
@@ -49,68 +39,55 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '30ch',
+      width: '20ch',
       '&:focus': {
-        width: '50ch',
+        width: '40ch',
       },
     },
   },
 }));
 
 export default function Header() {
-  const { setArticles } = useContext(ArticlesContext);
-  const [keyword, setKeyword] = useState('');
+  const { setArticles, setKeyword } = useContext(ArticlesContext);
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [showDrawer, setShowDrawer] = useState(false);
 
-  const handleChange = (target: HTMLInputElement | HTMLTextAreaElement): void => setKeyword(target.value);
+  const handleChange = (target: HTMLInputElement | HTMLTextAreaElement): void =>
+    setSearchKeyword(target.value);
 
   const searchArticles = async () => {
-    const { data } = await getArticles(`${keyword}`, '1');
+    const data = await getArticles(`${searchKeyword}`, '1');
 
-    setArticles(data);
+    setArticles(data?.data);
+    setKeyword(searchKeyword);
+
+    const keywords = localStorageGetItem('keywords');
+
+    if (keywords) {
+      localStorage.setItem('keywords', JSON.stringify([...keywords, searchKeyword]));
+    } else {
+      localStorage.setItem('favorites', JSON.stringify([searchKeyword]));
+    }
   };
 
   return (
-    <Box sx={{ flexGrow: 3 }}>
-      <AppBar position="static">
-        <Toolbar sx={{ backgroundColor: 'white' }}>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon sx={{ color: '#00DB87' }} />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 3, display: { xs: 'none', sm: 'block' } }}
-          >
-            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <img
-                src="https://www.mettzer.com/wp-content/uploads/2022/03/logo_mettzer_PRINCIPAL_EDITOR.png"
-                alt="Logo Mettzer"
-                width="60rem"
-                height="48rem"
-              />
-            </Link>
-          </Typography>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{
-              flexGrow: 1,
-              display: { xs: 'none', sm: 'block' },
-              color: '#00DB87',
-            }}
-          >
-            Favoritos
-          </Typography>
-          <Search>
-            <Stack>
+    <>
+      <Box sx={{ flexGrow: 3 }}>
+        <AppBar position="static">
+          <Toolbar sx={{ backgroundColor: 'white' }}>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ mr: 2 }}
+              onClick={() => setShowDrawer(!showDrawer)}
+            >
+              <MenuIcon sx={{ color: '#00DB87' }} />
+            </IconButton>
+            <LogoMettzer shouldHideOnMobile={true}/>
+            <FavoritesLink shouldHideOnMobile={true} />
+            <Search>
               <Button
                 sx={{ color: '#00DB87' }}
                 type="button"
@@ -118,16 +95,17 @@ export default function Header() {
               >
                 <SearchIcon />
               </Button>
-            </Stack>
-            <StyledInputBase
-              sx={{ color: '#212121' }}
-              placeholder="Palavra chave…"
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={({ target }) => handleChange(target)}
-            />
-          </Search>
-        </Toolbar>
-      </AppBar>
-    </Box>
+              <StyledInputBase
+                sx={{ color: '#212121' , fontSize: { xs: '14px', sm: '18px', md: '22px'}}}
+                placeholder="Palavra chave…"
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={({ target }) => handleChange(target)}
+              />
+            </Search>
+          </Toolbar>
+        </AppBar>
+      </Box>
+      <TopBar showDrawer={showDrawer} setShowDrawer={setShowDrawer} />
+    </>
   );
 }
