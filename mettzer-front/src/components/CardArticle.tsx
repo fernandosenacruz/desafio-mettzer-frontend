@@ -69,8 +69,17 @@ export default function CardArticle({
     setFavorites(storage || ARTICLE);
   };
 
-  const unfavorite = () => {
-    console.log('criar funnção de desfavoritar');
+  const unfavorite = (
+    storage: ISourceCardDetails[] | [],
+    ARTICLE: ISourceCardDetails
+  ) => {
+    const item = storage.map((item) => item.title).indexOf(ARTICLE.title);
+
+    if (item !== -1) {
+      storage.splice(item, 1);
+
+      localStorage.setItem('favorites', JSON.stringify(storage));
+    }
   };
 
   const handleFavorite = ({
@@ -84,7 +93,7 @@ export default function CardArticle({
     const favorited = findFavorited(storage, title);
 
     if (favorited) {
-      unfavorite();
+      unfavorite(storage, ARTICLE);
     } else {
       addFavorites(storage, ARTICLE);
     }
