@@ -25,13 +25,13 @@ function Favorites() {
               Artigos favoritos
             </Typography>
             <CardFavorites
-              authors={favorites[indexOfFavorite].authors}
-              title={favorites[indexOfFavorite].title}
-              description={favorites[indexOfFavorite].description}
-              urls={favorites[indexOfFavorite].urls}
+              authors={favorites[indexOfFavorite]?.authors}
+              title={favorites[indexOfFavorite]?.title}
+              description={favorites[indexOfFavorite]?.description}
+              urls={favorites[indexOfFavorite]?.urls}
             />
             <PaginationFavorites
-              pageNumber={favorites.length}
+              pageNumber={favorites?.length}
               callBack={setIndexOfFavorite}
             />
           </Grid>
@@ -46,7 +46,7 @@ function Favorites() {
                 {keywords[indexOfKeyword]}
               </Typography>
               <PaginationFavorites
-                pageNumber={keywords.length}
+                pageNumber={keywords?.length}
                 callBack={setIndexOfKeyword}
               />
             </>
