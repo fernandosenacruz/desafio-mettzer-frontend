@@ -60,13 +60,11 @@ export default function CardArticle({
     storage: ISourceCardDetails[] | [],
     ARTICLE: ISourceCardDetails
   ) => {
-    if (storage) {
-      localStorage.setItem('favorites', JSON.stringify([...storage, ARTICLE]));
-    } else {
-      localStorage.setItem('favorites', JSON.stringify([ARTICLE]));
-    }
+    const NEW_STORAGE = [...storage, ARTICLE];
 
-    setFavorites(storage || ARTICLE);
+    localStorage.setItem('favorites', JSON.stringify(NEW_STORAGE));
+
+    setFavorites(NEW_STORAGE);
   };
 
   const unfavorite = (
@@ -79,6 +77,8 @@ export default function CardArticle({
       storage.splice(item, 1);
 
       localStorage.setItem('favorites', JSON.stringify(storage));
+
+      setFavorites(storage);
     }
   };
 

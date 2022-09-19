@@ -1,7 +1,7 @@
 const localStorageGetItem = (key: string) => {
-  const favorites = localStorage.getItem(key) || '';
-    if (favorites) {
-      return JSON.parse(favorites);
+  const items = localStorage.getItem(key);
+    if (items) {
+      return JSON.parse(items);
     } else {
       return [];
     }

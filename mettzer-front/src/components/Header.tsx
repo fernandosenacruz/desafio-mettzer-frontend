@@ -13,6 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import { Button } from '@mui/material';
 import TopBar from './TopBar';
+import localStorageGetItem from '../utils/localStorageGetItem';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -59,6 +60,14 @@ export default function Header() {
 
     setArticles(data?.data);
     setKeyword(searchKeyword);
+
+    const keywords = localStorageGetItem('keywords');
+
+    if (keywords) {
+      localStorage.setItem('keywords', JSON.stringify([...keywords, searchKeyword]));
+    } else {
+      localStorage.setItem('favorites', JSON.stringify([searchKeyword]));
+    }
   };
 
   return (

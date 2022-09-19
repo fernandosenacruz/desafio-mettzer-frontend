@@ -5,7 +5,6 @@ import { ArticlesContext } from '../contexts/articles';
 import { Box, Grid } from '@mui/material';
 import { IArticle } from '../interfaces/IArticle';
 import PaginationLink from '../components/PaginationLink';
-import localStorageGetItem from '../utils/localStorageGetItem';
 
 function Home() {
   const { articles } = useContext(ArticlesContext);
