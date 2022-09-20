@@ -14,6 +14,7 @@ import { styled, alpha } from '@mui/material/styles';
 import { Button } from '@mui/material';
 import TopBar from './TopBar';
 import localStorageGetItem from '../utils/localStorageGetItem';
+import { useLocation } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -52,6 +53,10 @@ export default function Header() {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [showDrawer, setShowDrawer] = useState(false);
 
+  const location = useLocation();
+  const route = location.pathname.split('/');
+  const favorite = route.find(e => e === 'favorites');
+
   const handleChange = (target: HTMLInputElement | HTMLTextAreaElement): void =>
     setSearchKeyword(target.value);
 
@@ -87,7 +92,7 @@ export default function Header() {
             </IconButton>
             <LogoMettzer shouldHideOnMobile={true}/>
             <FavoritesLink shouldHideOnMobile={true} />
-            <Search>
+            {!favorite && <Search>
               <Button
                 sx={{ color: '#00DB87' }}
                 type="button"
@@ -101,7 +106,7 @@ export default function Header() {
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={({ target }) => handleChange(target)}
               />
-            </Search>
+            </Search>}
           </Toolbar>
         </AppBar>
       </Box>
