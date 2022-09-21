@@ -13,7 +13,7 @@ function Favorites() {
   const favorites: ISourceCardDetails[] | [] = localStorageGetItem('favorites');
   const keywords = localStorageGetItem('keywords');
 
-  useEffect(() => {}, [indexOfKeyword, indexOfFavorite]);
+  useEffect(() => { }, [indexOfKeyword, indexOfFavorite]);
 
   return (
     <>
@@ -21,7 +21,12 @@ function Favorites() {
       <Grid container spacing={4} p={2}>
         {favorites && (
           <Grid item md={5} p={2} mb={2}>
-            <Typography variant="h6" component="div" mb={2}>
+            <Typography
+              data-testid="favorite-articles"
+              variant="h6"
+              component="div"
+              mb={2}
+            >
               Artigos favoritos
             </Typography>
             <CardFavorites

@@ -10,12 +10,12 @@ test('should render home', () => {
     </MemoryRouter>
   );
 
-  const authores = screen.getByRole('button', { name: /authores/i });
+  const authors = screen.getByRole('button', { name: /authores/i });
   const title = screen.getByTestId('article-title');
   const type = screen.getByTestId('article-type');
   const description = screen.getByTestId('article-description');
 
-  expect(authores).toBeInTheDocument();
+  expect(authors).toBeInTheDocument();
   expect(title).toBeInTheDocument();
   expect(type).toBeInTheDocument();
   expect(description).toBeInTheDocument();
