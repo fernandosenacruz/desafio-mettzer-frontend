@@ -27,13 +27,13 @@ export default function BasicAccordion({
       <AccordionDetails>
         {!clickable
           ? array?.map((e, index) => (
-              <Typography key={`${index}: ${e}`}>{e}</Typography>
-            ))
+            <Typography key={`${index}: ${e}`}>{e}</Typography>
+          ))
           : array?.map((e, index) => (
-              <Typography key={`${index}: ${e}`}>
-                <a href={e}>{e}</a>
-              </Typography>
-            ))}
+            <Typography key={`${index}: ${e}`}>
+              <a data-testid={`url ${index + 1}`} href={e}>{e}</a>
+            </Typography>
+          ))}
       </AccordionDetails>
     </Accordion>
   );
