@@ -27,13 +27,13 @@ const card = (
           array={_source.authors}
           clickable={false}
         />
-        <Typography variant="h5" component="div" mb={2}>
+        <Typography data-testid="article-title" variant="h5" component="div" mb={2}>
           {_source.title}
         </Typography>
-        <Typography sx={{ mb: 2, fontStyle: 'italic' }} color="text.secondary">
+        <Typography data-testid="article-type"sx={{ mb: 2, fontStyle: 'italic' }} color="text.secondary">
           {_type}
         </Typography>
-        <Typography variant="body2" mb={2}>
+        <Typography data-testid="article-description" variant="body2" mb={2}>
           {_source.description}
         </Typography>
         <BasicAccordion label="URLs" array={_source.urls} clickable={true} />

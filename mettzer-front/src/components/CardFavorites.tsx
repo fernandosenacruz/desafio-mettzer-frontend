@@ -18,13 +18,22 @@ export default function CardFavorites({
           array={authors}
           clickable={false}
         />
-        <Typography variant="h5" component="div">
+        <Typography data-testid="favorite-title" variant="h5" component="div">
           {title}
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+        <Typography
+          data-testid="favorite-description"
+          sx={{ mb: 1.5 }}
+          color="text.secondary"
+        >
           {description}
         </Typography>
-        <BasicAccordion label="URLs" array={urls} clickable={true} />
+        <BasicAccordion
+          data-testid="favorite-urls"
+          label="URLs"
+          array={urls}
+          clickable={true}
+        />
       </CardContent>
     </Card>
   );

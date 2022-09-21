@@ -13,7 +13,7 @@ function Favorites() {
   const favorites: ISourceCardDetails[] | [] = localStorageGetItem('favorites');
   const keywords = localStorageGetItem('keywords');
 
-  useEffect(() => {}, [indexOfKeyword, indexOfFavorite]);
+  useEffect(() => { }, [indexOfKeyword, indexOfFavorite]);
 
   return (
     <>
@@ -21,7 +21,12 @@ function Favorites() {
       <Grid container spacing={4} p={2}>
         {favorites && (
           <Grid item md={5} p={2} mb={2}>
-            <Typography variant="h6" component="div" mb={2}>
+            <Typography
+              data-testid="favorite-articles"
+              variant="h6"
+              component="div"
+              mb={2}
+            >
               Artigos favoritos
             </Typography>
             <CardFavorites
@@ -37,12 +42,17 @@ function Favorites() {
           </Grid>
         )}
         <Grid item md={4} p={2} mb={2}>
-          <Typography variant="h6" component="div" mb={2}>
+          <Typography
+            data-testid="history-keywords"
+            variant="h6" component="div" mb={2}>
             Histórico de pesquisas
           </Typography>
           {keywords && (
             <>
-              <Typography sx={{ mb: 2, fontStyle: 'italic', color: '#00DB87' }}>
+              <Typography
+                data-testid={`keyword ${indexOfKeyword}`}
+                sx={{ mb: 2, fontStyle: 'italic', color: '#00DB87' }}
+              >
                 {keywords[indexOfKeyword]}
               </Typography>
               <PaginationFavorites
