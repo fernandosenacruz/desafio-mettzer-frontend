@@ -30,4 +30,10 @@
   ```
     $ npm start
   ```
+  
+  - Testes
+
+  ```
+    $ npm test
+  ```
 </details>
