@@ -1,12 +1,13 @@
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
-import { favoritesMock } from '../../mocks/favoritesMock';
+import { favoritesMock, keywordsMock } from '../../mocks/favoritesMock';
 import CardFavorites from '../../../components/CardFavorites';
 import PaginationFavorites from '../../../components/PaginationFavorites';
+import Favorites from '../../../pages/Favorites';
 
 test('should render articles favorited', () => {
-  const mock = jest.fn().mockReturnValueOnce(favoritesMock);
+  const mock = jest.fn().mockReturnValue(favoritesMock);
   const favorites = mock();
 
   render(
@@ -34,5 +35,21 @@ test('should render articles favorited', () => {
   expect(title).toBeInTheDocument();
   expect(description).toBeInTheDocument();
   expect(urls).toBeInTheDocument();
+  paginationArticles.map(p => (expect(p).toBeInTheDocument()));
+})
+
+test('should render history of keywords', () => {
+  render(
+    <MemoryRouter>
+      <Favorites />
+    </MemoryRouter>
+  );
+
+  const historyKeywords = screen.getByTestId('history-keywords');
+  const keyword = screen.queryAllByTestId('keyword 0');
+  const paginationArticles = screen.getAllByRole('button');
+
+  expect(historyKeywords).toBeInTheDocument();
+  expect(keyword[0]).toBeInTheDocument();
   paginationArticles.map(p => (expect(p).toBeInTheDocument()));
 })

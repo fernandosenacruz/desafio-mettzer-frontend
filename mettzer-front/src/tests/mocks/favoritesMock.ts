@@ -12,3 +12,5 @@ export const favoritesMock = [
     ]
   }
 ]
+
+export const keywordsMock = ["ximira"]
