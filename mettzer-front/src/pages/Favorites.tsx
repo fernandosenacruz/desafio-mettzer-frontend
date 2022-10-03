@@ -11,9 +11,9 @@ function Favorites() {
   const [indexOfFavorite, setIndexOfFavorite] = useState(0);
 
   const favorites: ISourceCardDetails[] | [] = localStorageGetItem('favorites');
-  const keywords = localStorageGetItem('keywords');
+  const keywords: string[] | [] = localStorageGetItem('keywords');
 
-  useEffect(() => { }, [indexOfKeyword, indexOfFavorite]);
+  // useEffect(() => { }, [indexOfKeyword, indexOfFavorite]);
 
   return (
     <>
