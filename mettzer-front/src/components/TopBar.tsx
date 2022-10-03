@@ -12,15 +12,17 @@ import {
   ListItemIcon,
 } from '@mui/material';
 
+type Anchor = 'top';
+
 interface IShowDrawer {
   showDrawer: boolean;
   setShowDrawer: Dispatch<boolean>;
 }
 
 function TopBar({ showDrawer, setShowDrawer }: IShowDrawer) {
-  const drawer = () => (
+  const drawer = (anchor: Anchor) => (
     <Box
-      sx={{ width:  'auto'}}
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250}}
       role="presentation"
       onClick={() => setShowDrawer(!showDrawer)}
     >
@@ -43,8 +45,8 @@ function TopBar({ showDrawer, setShowDrawer }: IShowDrawer) {
     </Box>
   );
   return (
-    <Drawer open={showDrawer} onClose={() => setShowDrawer(false)}>
-      {drawer()}
+    <Drawer anchor="top" open={showDrawer} onClose={() => setShowDrawer(false)}>
+      {drawer('top')}
     </Drawer>
   );
 }
