@@ -81,6 +81,7 @@ export interface ISource {
 }
 
 export interface ISourceCardDetails {
+  id: string;
   authors: string[];
   title: string;
   description: string;

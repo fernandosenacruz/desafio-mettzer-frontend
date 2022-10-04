@@ -20,7 +20,7 @@ function Home() {
       <Header />
       <Grid container spacing={4} p={2}>
         {articles?.data?.map((article: IArticle) => (
-          <Grid item md={6} key={article._id} p={2} mb={2}>
+          <Grid item md={6} key={article._source.id} p={2} mb={2}>
             <CardArticle
               article={article}
               favorites={favorites}

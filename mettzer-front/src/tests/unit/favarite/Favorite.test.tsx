@@ -1,7 +1,6 @@
 import { MemoryRouter } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
-import { favoritesMock, keywordsMock } from '../../mocks/favoritesMock';
+import { favoritesMock } from '../../mocks/favoritesMock';
 import CardFavorites from '../../../components/CardFavorites';
 import PaginationFavorites from '../../../components/PaginationFavorites';
 import Favorites from '../../../pages/Favorites';
@@ -13,6 +12,7 @@ test('should render articles favorited', () => {
   render(
     <MemoryRouter>
       <CardFavorites
+        id={favorites[0].id}
         authors={favorites[0].authors}
         title={favorites[0].title}
         description={favorites[0].description}

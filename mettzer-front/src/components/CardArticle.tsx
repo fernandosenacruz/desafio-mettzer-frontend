@@ -17,7 +17,7 @@ const card = (
   favorites: ISourceCardDetails[],
   handleFavorite: Function
 ) => {
-  const favorited = findFavorited(favorites, _source.title);
+  const favorited = findFavorited(favorites, _source.id);
 
   return (
     <>
@@ -38,8 +38,8 @@ const card = (
           data-testid="article-type"
           color="text.secondary"
           sx={{ mb: 2, fontStyle: 'italic' }}
-          >
-            {_type}
+        >
+          {_type}
         </Typography>
         <Typography data-testid="article-description" variant="body2" mb={2}>
           {_source.description}
@@ -79,7 +79,7 @@ export default function CardArticle({
     storage: ISourceCardDetails[] | [],
     article: ISourceCardDetails
   ) => {
-    const item = storage.map((item) => item.title).indexOf(article.title);
+    const item = storage.map((item) => item.id).indexOf(article.id);
 
     if (item !== -1) {
       storage.splice(item, 1);
@@ -91,14 +91,15 @@ export default function CardArticle({
   };
 
   const handleFavorite = ({
+    id,
     authors,
     title,
     description,
     urls,
   }: ISourceCardDetails) => {
-    const ARTICLE = { authors, title, description, urls };
+    const ARTICLE = { id, authors, title, description, urls };
     const storage = localStorageGetItem('favorites');
-    const favorited = findFavorited(storage, title);
+    const favorited = findFavorited(storage, id);
 
     if (favorited) {
       unfavorite(storage, ARTICLE);

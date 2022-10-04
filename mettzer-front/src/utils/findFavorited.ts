@@ -1,4 +1,4 @@
-const findFavorited = ((arr: any, title: string): any[] | [] => 
-  arr.find((f: any) => f.title === title));
+const findFavorited = ((arr: any, id: string): any[] | [] => 
+  arr.find((f: any) => f.id === id));
 
 export default findFavorited;

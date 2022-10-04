@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Header from '../components/Header';
 import CardFavorites from '../components/CardFavorites';
 import localStorageGetItem from '../utils/localStorageGetItem';
@@ -12,8 +12,6 @@ function Favorites() {
 
   const favorites: ISourceCardDetails[] | [] = localStorageGetItem('favorites');
   const keywords: string[] | [] = localStorageGetItem('keywords');
-
-  // useEffect(() => { }, [indexOfKeyword, indexOfFavorite]);
 
   return (
     <>
@@ -30,6 +28,7 @@ function Favorites() {
               Artigos favoritos
             </Typography>
             <CardFavorites
+              id={favorites[indexOfFavorite]?.id}
               authors={favorites[indexOfFavorite]?.authors}
               title={favorites[indexOfFavorite]?.title}
               description={favorites[indexOfFavorite]?.description}
