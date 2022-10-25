@@ -35,7 +35,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -90,7 +89,7 @@ export default function Header() {
             >
               <MenuIcon sx={{ color: '#00DB87' }} />
             </IconButton>
-            <LogoMettzer shouldHideOnMobile={true}/>
+            <LogoMettzer shouldHideOnMobile={true} />
             <FavoritesLink shouldHideOnMobile={true} />
             {!favorite && <Search>
               <Button
@@ -101,10 +100,13 @@ export default function Header() {
                 <SearchIcon />
               </Button>
               <StyledInputBase
-                sx={{ color: '#212121' , fontSize: { xs: '14px', sm: '18px', md: '22px'}}}
                 placeholder="Palavra chave…"
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={({ target }) => handleChange(target)}
+                sx={{
+                  color: '#212121',
+                  fontSize: { xs: '14px', sm: '18px', md: '22px' }
+                }}
               />
             </Search>}
           </Toolbar>

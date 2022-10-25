@@ -27,11 +27,19 @@ const card = (
           array={_source.authors}
           clickable={false}
         />
-        <Typography data-testid="article-title" variant="h5" component="div" mb={2}>
+        <Typography
+          data-testid="article-title"
+          variant="h5"
+          component="div" mb={2}
+        >
           {_source.title}
         </Typography>
-        <Typography data-testid="article-type"sx={{ mb: 2, fontStyle: 'italic' }} color="text.secondary">
-          {_type}
+        <Typography
+          data-testid="article-type"
+          color="text.secondary"
+          sx={{ mb: 2, fontStyle: 'italic' }}
+          >
+            {_type}
         </Typography>
         <Typography data-testid="article-description" variant="body2" mb={2}>
           {_source.description}
@@ -58,20 +66,20 @@ export default function CardArticle({
 }) {
   const addFavorites = (
     storage: ISourceCardDetails[] | [],
-    ARTICLE: ISourceCardDetails
+    article: ISourceCardDetails
   ) => {
-    const NEW_STORAGE = [...storage, ARTICLE];
+    const newStorage = [...storage, article];
 
-    localStorage.setItem('favorites', JSON.stringify(NEW_STORAGE));
+    localStorage.setItem('favorites', JSON.stringify(newStorage));
 
-    setFavorites(NEW_STORAGE);
+    setFavorites(newStorage);
   };
 
   const unfavorite = (
     storage: ISourceCardDetails[] | [],
-    ARTICLE: ISourceCardDetails
+    article: ISourceCardDetails
   ) => {
-    const item = storage.map((item) => item.title).indexOf(ARTICLE.title);
+    const item = storage.map((item) => item.title).indexOf(article.title);
 
     if (item !== -1) {
       storage.splice(item, 1);

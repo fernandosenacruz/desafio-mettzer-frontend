@@ -22,7 +22,7 @@ interface IShowDrawer {
 function TopBar({ showDrawer, setShowDrawer }: IShowDrawer) {
   const drawer = (anchor: Anchor) => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250}}
       role="presentation"
       onClick={() => setShowDrawer(!showDrawer)}
     >
